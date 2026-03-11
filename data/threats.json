@@ -1,0 +1,49 @@
+{
+  "meta": {
+    "source": "NVD / NIST — Simulated Dummy Data",
+    "lastUpdated": "2026-03-10T00:00:00Z",
+    "note": "Replace this file with a real feed from https://nvd.nist.gov/developers/vulnerabilities or a Cloudflare Worker proxy."
+  },
+  "threats": [
+    {
+      "id": "CVE-2026-1337",
+      "title": "Critical RCE in OpenSSH",
+      "severity": "high",
+      "cvss": 9.8,
+      "affected": "OpenSSH < 9.1",
+      "description": "Unauthenticated remote code execution via crafted SSH packets. Grants root-level access on vulnerable hosts.",
+      "date": "2026-03-09",
+      "references": ["https://nvd.nist.gov/vuln/detail/CVE-2026-1337"]
+    },
+    {
+      "id": "CVE-2026-4488",
+      "title": "SQL Injection in Popular CMS",
+      "severity": "high",
+      "cvss": 9.1,
+      "affected": "CMS v4.2–4.7",
+      "description": "Unauthenticated SQL injection on the user login endpoint allows full database extraction.",
+      "date": "2026-03-08",
+      "references": ["https://nvd.nist.gov/vuln/detail/CVE-2026-4488"]
+    },
+    {
+      "id": "CVE-2026-2201",
+      "title": "Reflected XSS in jQuery UI",
+      "severity": "medium",
+      "cvss": 6.1,
+      "affected": "jQuery UI < 1.13.3",
+      "description": "Reflected XSS via unsanitised search parameter allows attackers to inject and execute malicious scripts in a victim's browser.",
+      "date": "2026-03-07",
+      "references": ["https://nvd.nist.gov/vuln/detail/CVE-2026-2201"]
+    },
+    {
+      "id": "CVE-2026-0891",
+      "title": "TLS 1.0 Downgrade Attack",
+      "severity": "low",
+      "cvss": 3.7,
+      "affected": "All TLS 1.0 implementations",
+      "description": "Legacy TLS 1.0 protocol support enables downgrade attacks. Upgrading to TLS 1.3 is strongly recommended.",
+      "date": "2026-03-06",
+      "references": ["https://nvd.nist.gov/vuln/detail/CVE-2026-0891"]
+    }
+  ]
+}

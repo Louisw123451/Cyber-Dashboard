@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Cybersecurity Live Dashboard — Portfolio project demonstrating real-time security monitoring." />
+  <title>Cybersecurity Live Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Chart.js CDN for threat statistics chart -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js" defer></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+
+  <!-- Matrix digital rain background (rendered by script.js → initMatrixRain) -->
+  <canvas id="matrix-canvas" aria-hidden="true"></canvas>
+
+  <!-- Slide-in security alert toasts -->
+  <div id="toast-container" role="alert" aria-live="polite"></div>
+
+  <!-- ============================================================
+       HEADER
+  ============================================================ -->
+  <header>
+    <div class="header-content">
+      <div class="logo">
+        <span class="shield-icon" aria-hidden="true">🛡️</span>
+        <h1 data-text="Cybersecurity Live Dashboard">Cybersecurity Live Dashboard</h1>
+      </div>
+      <div class="header-meta">
+        <span class="status-badge" aria-label="Live status">● LIVE</span>
+        <span id="threat-counter" class="threat-count-badge">⚡ 0 threats</span>
+        <span id="last-updated">Last updated: —</span>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light/dark theme" onclick="toggleTheme()">
+          <span id="theme-icon">☀️</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       INTRO HERO SECTION
+  ============================================================ -->
+  <section class="intro-hero" aria-label="Project introduction">
+
+    <!-- Top status bar -->
+    <div class="intro-status-bar">
+      <span class="intro-status-dot"></span>
+      <span class="intro-status-text">All systems operational &mdash; Dashboard v2.0 &mdash; Deployed on Cloudflare Pages</span>
+      <span class="intro-status-right">March 2026</span>
+    </div>
+
+    <div class="intro-body">
+
+      <!-- Left: Project Overview -->
+      <div class="intro-left">
+        <div class="intro-eyebrow">
+          <span class="intro-tag">Cybersecurity Portfolio Project</span>
+        </div>
+        <h2 class="intro-title">Security Operations<br><span class="intro-title-accent">Live Dashboard</span></h2>
+        <p class="intro-lead">
+          A production-architecture cybersecurity monitoring dashboard. Every panel mirrors
+          a real SOC tool and is designed to plug into a live backend with minimal code changes.
+        </p>
+
+        <!-- Capability Grid -->
+        <div class="intro-capabilities">
+          <div class="cap-item">
+            <span class="cap-icon">🌐</span>
+            <div>
+              <div class="cap-title">Uptime Monitoring</div>
+              <div class="cap-desc">Tracks endpoint availability &amp; response latency in real time</div>
+            </div>
+          </div>
+          <div class="cap-item">
+            <span class="cap-icon">🔒</span>
+            <div>
+              <div class="cap-title">SSL Certificate Health</div>
+              <div class="cap-desc">Flags expired or near-expiry certificates across domains</div>
+            </div>
+          </div>
+          <div class="cap-item">
+            <span class="cap-icon">🔐</span>
+            <div>
+              <div class="cap-title">HTTP Security Headers</div>
+              <div class="cap-desc">Audits CSP, HSTS, X-Frame-Options &amp; more for compliance</div>
+            </div>
+          </div>
+          <div class="cap-item">
+            <span class="cap-icon">⚠️</span>
+            <div>
+              <div class="cap-title">CVE Threat Feed</div>
+              <div class="cap-desc">Surfaces latest CVEs with CVSS scores &amp; severity triage</div>
+            </div>
+          </div>
+          <div class="cap-item">
+            <span class="cap-icon">⚡</span>
+            <div>
+              <div class="cap-title">System Metrics</div>
+              <div class="cap-desc">Live CPU, memory, network I/O &amp; firewall rule telemetry</div>
+            </div>
+          </div>
+          <div class="cap-item">
+            <span class="cap-icon">🗺️</span>
+            <div>
+              <div class="cap-title">Live Attack Map</div>
+              <div class="cap-desc">Animated global threat origin map with real-time packet flows</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tech Stack -->
+        <div class="intro-stack">
+          <span class="stack-label">Stack:</span>
+          <span class="tag">HTML5</span>
+          <span class="tag">CSS3</span>
+          <span class="tag">Vanilla JS</span>
+          <span class="tag">Chart.js</span>
+          <span class="tag">Canvas API</span>
+          <span class="tag">Cloudflare Pages</span>
+          <span class="tag">CVE / CVSS</span>
+        </div>
+      </div>
+
+      <!-- Right: Profile Card -->
+      <div class="intro-right">
+        <div class="intro-card">
+          <div class="intro-avatar-ring">
+            <div class="intro-avatar-inner">LW</div>
+          </div>
+          <div class="intro-name">Louis Wang</div>
+          <div class="intro-role">Cybersecurity &amp; Cloud Enthusiast</div>
+          <div class="intro-divider"></div>
+          <div class="intro-about">
+            Building security tooling that demonstrates both frontend engineering and
+            cybersecurity domain knowledge &mdash; bridging the gap between code and defence.
+          </div>
+          <div class="intro-links">
+            <a class="intro-link linkedin" href="https://linkedin.com/in/louis-wang-4600241b4" target="_blank" rel="noopener noreferrer">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+              View LinkedIn
+            </a>
+            <a class="intro-link github" href="https://github.com/Louisw123451" target="_blank" rel="noopener noreferrer">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+              View GitHub
+            </a>
+          </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="intro-stats">
+          <div class="istat">
+            <span class="istat-val">8</span>
+            <span class="istat-label">Panels</span>
+          </div>
+          <div class="istat-sep"></div>
+          <div class="istat">
+            <span class="istat-val">4</span>
+            <span class="istat-label">CVEs Tracked</span>
+          </div>
+          <div class="istat-sep"></div>
+          <div class="istat">
+            <span class="istat-val">7</span>
+            <span class="istat-label">Headers Audited</span>
+          </div>
+          <div class="istat-sep"></div>
+          <div class="istat">
+            <span class="istat-val">60fps</span>
+            <span class="istat-label">Attack Map</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       MAIN DASHBOARD GRID
+  ============================================================ -->
+  <main class="dashboard-grid" aria-label="Security dashboard panels">
+
+    <!-- 1. Website Uptime Monitor -->
+    <section class="card" id="uptime-section" aria-labelledby="uptime-title">
+      <div class="card-header">
+        <h2 id="uptime-title">🌐 Website Uptime Monitor</h2>
+        <button class="refresh-btn" onclick="refreshUptime()" aria-label="Refresh uptime data">↻ Refresh</button>
+      </div>
+      <div id="uptime-list" class="uptime-list" aria-live="polite">
+        <!-- Populated by script.js -->
+      </div>
+    </section>
+
+    <!-- 2. SSL Certificate Status -->
+    <section class="card" id="ssl-section" aria-labelledby="ssl-title">
+      <div class="card-header">
+        <h2 id="ssl-title">🔒 SSL Certificate Status</h2>
+      </div>
+      <div id="ssl-list" class="ssl-list">
+        <!-- Populated by script.js -->
+      </div>
+    </section>
+
+    <!-- 3. HTTP Security Headers -->
+    <section class="card" id="headers-section" aria-labelledby="headers-title">
+      <div class="card-header">
+        <h2 id="headers-title">🔐 HTTP Security Headers</h2>
+      </div>
+      <div id="headers-list" class="headers-list">
+        <!-- Populated by script.js -->
+      </div>
+    </section>
+
+    <!-- 4. Live Threat Feed -->
+    <section class="card" id="threat-section" aria-labelledby="threat-title">
+      <div class="card-header">
+        <h2 id="threat-title">⚠️ Live Threat Feed</h2>
+        <span class="pulse-dot" aria-hidden="true"></span>
+      </div>
+      <div id="threat-list" class="threat-list" aria-live="polite">
+        <!-- Populated by script.js -->
+      </div>
+    </section>
+
+    <!-- 5. Threat Statistics Chart (spans 2 columns) -->
+    <section class="card" id="chart-section" aria-labelledby="chart-title">
+      <div class="card-header">
+        <h2 id="chart-title">📊 Threat Statistics — Last 7 Days</h2>
+      </div>
+      <canvas id="threatChart" role="img" aria-label="Stacked bar chart of threat counts by severity over the last 7 days"></canvas>
+    </section>
+
+    <!-- 7. System Metrics -->
+    <section class="card" id="metrics-section" aria-labelledby="metrics-title">
+      <div class="card-header">
+        <h2 id="metrics-title">⚡ System Metrics</h2>
+        <span id="metrics-clock" class="metrics-clock">00:00:00</span>
+      </div>
+      <div id="metrics-list" class="metrics-list"></div>
+    </section>
+
+    <!-- 8. Live Attack Map -->
+    <section class="card attackmap-card" id="attackmap-section" aria-labelledby="attackmap-title">
+      <div class="card-header">
+        <h2 id="attackmap-title">🗺️ Live Attack Map</h2>
+        <span class="pulse-dot" aria-hidden="true"></span>
+      </div>
+      <canvas id="attackCanvas" role="img" aria-label="Animated world map showing live cyber attack origins"></canvas>
+    </section>
+
+    <!-- 6. AI Security Summary (full width) -->
+    <section class="card ai-card" id="ai-section" aria-labelledby="ai-title">
+      <div class="card-header">
+        <h2 id="ai-title">🤖 AI Security Summary</h2>
+        <span class="ai-badge">AI-Powered</span>
+      </div>
+      <div id="ai-summary" class="ai-summary">
+        <!-- Populated by script.js -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer>
+    <div class="footer-content">
+      <p>&copy; 2026 Louis Wang &mdash; Cybersecurity Dashboard Portfolio Project</p>
+      <div class="footer-links">
+        <a href="https://linkedin.com/in/louis-wang-4600241b4" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <span class="footer-sep">·</span>
+        <a href="https://github.com/Louisw123451" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <span class="footer-sep">·</span>
+        <a href="https://pages.cloudflare.com" target="_blank" rel="noopener noreferrer">Cloudflare Pages</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
